@@ -17,7 +17,7 @@ pg: postgresql的驱动
     - idleTimeoutMillis: 当一个连接空闲多长时间后关闭。pool会保留至少min个连接
 
 ## pg-pool postgresql的连接池 [github](https://github.com/brianc/node-pg-pool)
-  该模块把generic-pool包装了一下: 把pg.client当作factory，传入generic-pool。主要方法：
+  #### 该模块把generic-pool包装了一下: 把pg.client当作factory，传入generic-pool。主要方法：
   - connect: 返回一个连接，其实就是调用generic-pool的acquire获取一个连接client（pg.client对象），然后就可以在client对象上进行query等操作。最后需要自己client.release，把client还给pool.
     - 需要注意：connect方法从generic-pool里面acquire了一个client后，在这个client上绑定了一个release方法
     - 这个release方法，接受一个参数err，如果err为空，则调用generic-pool的release，意味着只是将连接释放
@@ -25,7 +25,7 @@ pg: postgresql的驱动
   - query: 调用connect获取一个client，进行query操作，最后自动调用client.release
 
 ## pg postgresql的驱动 [github](https://github.com/brianc/node-postgres)
-  pg模块是底层的postgresql数据库驱动，可以创建连接到pg数据库的连接。如果加上上面两个模块，则可以创建一个连接池。  
+  #### pg模块是底层的postgresql数据库驱动，可以创建连接到pg数据库的连接。如果加上上面两个模块，则可以创建一个连接池。  
   - pg.Client: var client = new pg.Client(opts): 初始化一个到postgresql数据库的连接, opts是连接数据库的参数
     - client.connect: 创建一个连接，调用后pg会创建 
     - client.end: 销毁一个连接
