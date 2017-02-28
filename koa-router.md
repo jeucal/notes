@@ -31,7 +31,7 @@ var router = require('koa-router')();
 router.stack 是一个array, 里面每个元素是一个layer对象
 
 #### route.use
-  use方法有两种使用方法：
+  use方法有三种使用方法：
   1. route.use('/path', (ctx, next) => {})
   这会调用route.register(path, [], middleware)，生成一个新的layer放入route.stack中。注意第二个参数method为空数组[].  
   关键点：这种调用方法，没有指定method, 所以实现的效果就是：只要符合path的request，都会被这个中间件处理。
@@ -41,6 +41,7 @@ router.stack 是一个array, 里面每个元素是一个layer对象
   关键点：route1和route2中的layer，要先加上route的prefix, 还有params，再放到route中。最终实现的效果就是：route集合了route1和route2定义的所有路由，就好像直接再route上定义路由一样。
 
   3. route.use(middleware) 
+  没有指定path，也没有method，所有request都会被middleware处理，例如：route.use(session())
 
   #### route.routes
   调用该方法返回一个函数dispatch(ctx, next)，该函数就是一个中间件，内部将这个route的layer都给串联起来，然后compose，并返回。因此可以这样使用：app.use(route.routes()) => app.use(dispatch)。
